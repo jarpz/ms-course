@@ -1,15 +1,9 @@
 
 
-https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin
-
-https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md
-
-https://openapi-generator.tech/docs/generators/spring
-
 - Create docker network
 ```
 docker network create -d bridge demo-network
-docker network create -d bridge --scope swarm demo-network --attachable
+docker network create -d bridge --scope swarm demo-network --attachable #Swarm
 ```
 
 Correr mysql docker instancia
@@ -21,10 +15,15 @@ Compilar fuentes:
 ```
 cd ms-course
 mvn clean install 
+
 ```
 
 - Build image con jib
 ```
+cd microservice
+mvn jib:dockerBuild
+
+cd config-server
 mvn jib:dockerBuild
 ```
 
@@ -37,6 +36,11 @@ docker build . -t microservice:1.0-SNAPSHOT
 cd config-server
 mvn package
 docker build . -t config-server:1.0-SNAPSHOT
+```
+- tag image
+```
+docker tag microservice:1.0-SNAPSHOT jarpz/microservice:1.0
+docker tag config-server:1.0-SNAPSHOT jarpz/config-server:1.0
 ```
 
 - run config-server
