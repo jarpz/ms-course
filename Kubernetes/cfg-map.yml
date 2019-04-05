@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cfg-map
+data:
+  application.yml: |-
+    property.value: config map value
+    server.port: 8080

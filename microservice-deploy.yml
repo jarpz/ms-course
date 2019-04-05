@@ -1,0 +1,13 @@
+version: '3.6'
+services:
+  ms:
+    image: microservice:1.0-SNAPSHOT
+    deploy:
+      replicas: 2
+    environment:
+      spring.cloud.config.uri: http://config-server:8080
+
+networks:
+  default:
+    external: true
+    name: demo-network

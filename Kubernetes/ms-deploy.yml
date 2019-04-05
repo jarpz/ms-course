@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microservice
+  labels:
+    app: microservice
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: microservice
+    spec:
+      containers:
+      - name: microservice
+        image: jarpz/microservice:1.0
+        ports:
+        - containerPort: 8080
+#        volumeMounts:
+#        - name: secrets
+#          mountPath: "/etc/secrets"
+#          readOnly: true
+        env:
+          - name: k8s-namespace
+            value: default
+          - name: k8s-secret
+            value: config-server
+        args: [
+"--spring.cloud.kubernetes.secrets.name=config-server"
+#"--spring.cloud.kubernetes.secrets.paths=/etc/secrets"
+,"--spring.cloud.kubernetes.secrets.enableApi=true"
+]
+#      volumes:
+#      - name: secrets
+#        secret:
+#          secretName: config-server

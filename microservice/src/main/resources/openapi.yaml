@@ -1,0 +1,152 @@
+openapi: 3.0.1
+info:
+  description: Songs services
+  title: Songs
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Song microservice
+  name: Songs
+paths:
+  /songs:
+    post:
+      description: Register new song
+      operationId: newSong
+      tags:
+      - Songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterSongRequest'
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterSongResponse'
+          description: OK
+      summary: Register new song
+    get:
+      description: Ge all songs
+      operationId: getAllSongs
+      tags:
+      - Songs
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongResponse'
+            application/stream+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongResponse'
+  /songs/{id}:
+    get:
+      operationId: getSongById
+      description: Get song by id
+      tags:
+      - Songs
+      parameters:
+      - name: id
+        in: path
+        description: Song id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SongResponse'
+        404:
+          description: Song not found
+    delete:
+      operationId: deleteSongById
+      description: delete a song by id
+      tags:
+      - Songs
+      parameters:
+      - name: id
+        in: path
+        description: Song id
+        required: true
+        schema:
+          type: integer
+          format: in32
+      responses:
+        200:
+          description: Song deleted sucessfully
+
+components:
+  schemas:
+    GENRE:
+      type: string
+      enum:
+      - POP
+      - CLASSIC
+      - ROCK
+      - REGGAE
+      - SALSA
+      - REGGAETON
+    RegisterSongRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        author:
+          type: string
+          minLength: 1
+        compositor:
+          type: string
+          minLength: 1
+        genre:
+          $ref: '#/components/schemas/GENRE'
+        durationInSeconds:
+          format: int32
+          minimum: 1
+          type: integer
+      required:
+      - title
+      - author
+      - compositor
+      - genre
+      - durationInSeconds
+      example:
+        durationInSeconds: 1
+        title: title
+        author: Juan Luis Guerra
+        compositor: Daddy Yankee
+        genre: POP
+    RegisterSongResponse:
+      example:
+        id: 1
+      properties:
+        id:
+          format: int32
+          type: integer
+      type: object
+
+    SongResponse:
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        compositor:
+          type: string
+        durationInSeconds:
+          type: integer
+        genre:
+          $ref: '#/components/schemas/GENRE'
