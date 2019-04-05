@@ -41,11 +41,11 @@ docker build . -t config-server:1.0-SNAPSHOT
 
 - run config-server
 ```
-docker run -d -p 8001:8080 --name config-server -e 'config-repo=/config-repo' -v /home/jarp/Projects/config-repo:/config-repo --network-alias config-server --network=demo-network  config-server:1.0-SNAPSHOT
+docker run -d -p 8001:8080 --name config-server -e 'config-repo=/config-repo' -v $PWD/config-repo:/config-repo --network-alias config-server --network=demo-network jarpz/config-server:1.0
 ```
 
 - run microservice 
 ``` 
-docker run -d -p 8080:8080 --name microservice -e 'spring.cloud.config.uri=http://config-server:8080' --network=demo-network  microservice:1.0-SNAPSHOT 
+docker run -d -p 8080:8080 --name microservice -e 'spring.cloud.config.uri=http://config-server:8080' --network=demo-network  jarpz/microservice:1.0
 ```
 
