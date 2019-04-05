@@ -48,8 +48,4 @@ docker run -d -p 8001:8080 --name config-server -e 'config-repo=/config-repo' -v
 ``` 
 docker run -d -p 8080:8080 --name microservice -e 'spring.cloud.config.uri=http://config-server:8080' --network=demo-network  microservice:1.0-SNAPSHOT 
 ```
-    
-```
-docker service create --name ms --publish published=8080,target=8080 --network demo-network -e 'spring.cloud.config.uri=http://config-server:8080' microservice:1.0-SNAPSHOT 
-```
 
